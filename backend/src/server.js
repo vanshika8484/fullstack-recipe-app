@@ -37,6 +37,17 @@ catch(error){
     res.status(500).json({error:"Failed to delete favorite"});
 }
 })
+app.get("/api/favorites/:userId",async(req,res)=>{
+    try{
+        const {userId}=req.params;
+        const userFavorites=await db.select().from(favorites).where(eq(favorites.userId,userId));
+        res.status(200).json(userFavorites);
+    }
+    catch(error){
+        console.error("Error fetching favorites:",error);
+        res.status(500).json({error:"Failed to fetch favorites"});
+    }
+})
 app.listen(PORT,()=>{
     console.log("server started",PORT);
 })
