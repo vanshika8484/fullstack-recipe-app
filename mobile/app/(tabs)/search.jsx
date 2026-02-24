@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, FlatList } from "react-native";
-import { MealAPI } from "../../services/mealAPI";
+import { mealAPI } from "../../services/mealAPI";
 import { useDebounce } from "../../hooks/useDebounce";
 import { searchStyles } from "../../assets/styles/search.styles";
 import { COLORS } from "../../constants/colors";
@@ -16,30 +16,34 @@ const SearchScreen = () => {
 
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
 
-  const performSearch = async (query) => {
-    // if no search query
+ const performSearch = async (query) => {
+  try {
+    // if no search query, get random meals
     if (!query.trim()) {
-      const randomMeals = await this.getRandomMeals(12);
+      const randomMeals = await mealAPI.getRandomMeals(12);  
       return randomMeals
-        .map((meal) => MealAPI.transformMealData(meal))
+        .map((meal) => mealAPI.transformMealData(meal))
         .filter((meal) => meal !== null);
     }
 
     // search by name first, then by ingredient if no results
-
-    const nameResults = await MealAPI.searchMealsByName(query);
+    const nameResults = await mealAPI.searchMealByName(query);
     let results = nameResults;
 
     if (results.length === 0) {
-      const ingredientResults = await MealAPI.filterByIngredient(query);
+      const ingredientResults = await mealAPI.filterByIngredient(query);
       results = ingredientResults;
     }
 
     return results
       .slice(0, 12)
-      .map((meal) => MealAPI.transformMealData(meal))
+      .map((meal) => mealAPI.transformMealData(meal))
       .filter((meal) => meal !== null);
-  };
+  } catch (error) {
+    console.error("Error in performSearch:", error);
+    return [];
+  }
+};
 
   useEffect(() => {
     const loadInitialData = async () => {
