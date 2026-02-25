@@ -1,10 +1,12 @@
-import { View, Text, ScrollView, FlatList } from 'react-native'
+import { View, Text, ScrollView, FlatList, TouchableOpacity, Alert } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useClerk, useUser } from '@clerk/clerk-expo'
 import {favoritesStyles} from "../../assets/styles/favorites.styles"
 import LoadingSpinner from '../../components/LoadingSpinner'
 import NoFavoritesFound from '../../components/NoFavoritesFound'
 import { API_URL } from "../../constants/api";
+import { Ionicons } from '@expo/vector-icons'
+import { COLORS } from '../../constants/colors'
 
 const Favorites = () => {
   const {signOut} = useClerk();
@@ -36,7 +38,10 @@ const Favorites = () => {
   }, [user.id]);
 
   const handleSignOut = () => {
-  
+    Alert.alert("Logout", "Are you sure you want to logout?", [
+      { text: "Cancel", style: "cancel" },
+      { text: "Logout", style: "destructive", onPress: signOut },
+    ]);
   };
   if(loading){
     return <LoadingSpinner message="Loading your favorites..." />
@@ -46,7 +51,9 @@ const Favorites = () => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={favoritesStyles.header}>
           <Text style={favoritesStyles.title}>Favorites</Text>
-         
+         <TouchableOpacity style={favoritesStyles.logoutButton} onPress={handleSignOut}>
+            <Ionicons name="log-out-outline" size={22} color={COLORS.text} />
+          </TouchableOpacity>
         </View>
 
         <View style={favoritesStyles.recipesSection}>
