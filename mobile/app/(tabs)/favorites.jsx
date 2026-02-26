@@ -7,6 +7,7 @@ import NoFavoritesFound from '../../components/NoFavoritesFound'
 import { API_URL } from "../../constants/api";
 import { Ionicons } from '@expo/vector-icons'
 import { COLORS } from '../../constants/colors'
+import RecipeCard from '../../components/RecipeCard'
 
 const Favorites = () => {
   const {signOut} = useClerk();

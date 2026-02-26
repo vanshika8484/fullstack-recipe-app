@@ -4,9 +4,12 @@ import { Ionicons } from "@expo/vector-icons";
 import { COLORS } from "../../constants/colors";
 
 export default function TabLayout() {
-    const {isSignedIn} = useAuth();
+    const {isSignedIn, isLoaded} = useAuth();
     if(!isSignedIn) {
         return <Redirect href="/(auth)/sign-in" />
+    }
+    if(!isLoaded) {
+        return null;
     }
   return (
     <Tabs screenOptions={{headerShown: false,
