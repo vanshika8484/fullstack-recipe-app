@@ -13,7 +13,7 @@ const Favorites = () => {
   const {signOut} = useClerk();
   const {user}=useUser();
   const [favoriteRecipes, setFavoriteRecipes] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     const loadFavorites = async () => {
      try{
