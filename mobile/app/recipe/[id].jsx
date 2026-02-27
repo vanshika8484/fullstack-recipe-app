@@ -29,7 +29,9 @@ const RecipeDetailScreen = () => {
       try {
         const response = await fetch(`${API_URL}/favorites/${userId}`);
         const favorites = await response.json();
-        const isRecipeSaved = favorites.some((fav) => fav.recipeId === parseInt(recipeId));
+        const isRecipeSaved = favorites.some(
+          (fav) => fav.recipeId === parseInt(recipeId),
+        );
         setIsSaved(isRecipeSaved);
       } catch (error) {
         console.error("Error checking if recipe is saved:", error);
@@ -73,9 +75,12 @@ const RecipeDetailScreen = () => {
     try {
       if (isSaved) {
         // remove from favorites
-        const response = await fetch(`${API_URL}/favorites/${userId}/${recipeId}`, {
-          method: "DELETE",
-        });
+        const response = await fetch(
+          `${API_URL}/favorites/${userId}/${recipeId}`,
+          {
+            method: "DELETE",
+          },
+        );
         if (!response.ok) throw new Error("Failed to remove recipe");
 
         setIsSaved(false);
@@ -144,7 +149,13 @@ const RecipeDetailScreen = () => {
               disabled={isSaving}
             >
               <Ionicons
-                name={isSaving ? "hourglass" : isSaved ? "bookmark" : "bookmark-outline"}
+                name={
+                  isSaving
+                    ? "hourglass"
+                    : isSaved
+                      ? "bookmark"
+                      : "bookmark-outline"
+                }
                 size={24}
                 color={COLORS.white}
               />
@@ -154,13 +165,17 @@ const RecipeDetailScreen = () => {
           {/* Title Section */}
           <View style={recipeDetailStyles.titleSection}>
             <View style={recipeDetailStyles.categoryBadge}>
-              <Text style={recipeDetailStyles.categoryText}>{recipe.category}</Text>
+              <Text style={recipeDetailStyles.categoryText}>
+                {recipe.category}
+              </Text>
             </View>
             <Text style={recipeDetailStyles.recipeTitle}>{recipe.title}</Text>
             {recipe.area && (
               <View style={recipeDetailStyles.locationRow}>
                 <Ionicons name="location" size={16} color={COLORS.white} />
-                <Text style={recipeDetailStyles.locationText}>{recipe.area} Cuisine</Text>
+                <Text style={recipeDetailStyles.locationText}>
+                  {recipe.area} Cuisine
+                </Text>
               </View>
             )}
           </View>
@@ -176,7 +191,9 @@ const RecipeDetailScreen = () => {
               >
                 <Ionicons name="time" size={20} color={COLORS.white} />
               </LinearGradient>
-              <Text style={recipeDetailStyles.statValue}>{recipe.cookTime}</Text>
+              <Text style={recipeDetailStyles.statValue}>
+                {recipe.cookTime}
+              </Text>
               <Text style={recipeDetailStyles.statLabel}>Prep Time</Text>
             </View>
 
@@ -187,7 +204,9 @@ const RecipeDetailScreen = () => {
               >
                 <Ionicons name="people" size={20} color={COLORS.white} />
               </LinearGradient>
-              <Text style={recipeDetailStyles.statValue}>{recipe.servings}</Text>
+              <Text style={recipeDetailStyles.statValue}>
+                {recipe.servings}
+              </Text>
               <Text style={recipeDetailStyles.statLabel}>Servings</Text>
             </View>
           </View>
@@ -202,15 +221,24 @@ const RecipeDetailScreen = () => {
                   <Ionicons name="play" size={16} color={COLORS.white} />
                 </LinearGradient>
 
-                <Text style={recipeDetailStyles.sectionTitle}>Video Tutorial</Text>
+                <Text style={recipeDetailStyles.sectionTitle}>
+                  Video Tutorial
+                </Text>
               </View>
 
               <View style={recipeDetailStyles.videoCard}>
                 <WebView
                   style={recipeDetailStyles.webview}
-                  source={{ uri: getYouTubeEmbedUrl(recipe.youtubeUrl) }}
+                  source={{
+                    uri: getYouTubeEmbedUrl(recipe.youtubeUrl),
+                    headers: {
+                      Referer: "https://your-app-bundle-id.com", 
+                    },
+                  }}
                   allowsFullscreenVideo
                   mediaPlaybackRequiresUserAction={false}
+                  javaScriptEnabled={true} 
+                  domStorageEnabled={true} 
                 />
               </View>
             </View>
@@ -227,7 +255,9 @@ const RecipeDetailScreen = () => {
               </LinearGradient>
               <Text style={recipeDetailStyles.sectionTitle}>Ingredients</Text>
               <View style={recipeDetailStyles.countBadge}>
-                <Text style={recipeDetailStyles.countText}>{recipe.ingredients.length}</Text>
+                <Text style={recipeDetailStyles.countText}>
+                  {recipe.ingredients.length}
+                </Text>
               </View>
             </View>
 
@@ -235,11 +265,19 @@ const RecipeDetailScreen = () => {
               {recipe.ingredients.map((ingredient, index) => (
                 <View key={index} style={recipeDetailStyles.ingredientCard}>
                   <View style={recipeDetailStyles.ingredientNumber}>
-                    <Text style={recipeDetailStyles.ingredientNumberText}>{index + 1}</Text>
+                    <Text style={recipeDetailStyles.ingredientNumberText}>
+                      {index + 1}
+                    </Text>
                   </View>
-                  <Text style={recipeDetailStyles.ingredientText}>{ingredient}</Text>
+                  <Text style={recipeDetailStyles.ingredientText}>
+                    {ingredient}
+                  </Text>
                   <View style={recipeDetailStyles.ingredientCheck}>
-                    <Ionicons name="checkmark-circle-outline" size={20} color={COLORS.textLight} />
+                    <Ionicons
+                      name="checkmark-circle-outline"
+                      size={20}
+                      color={COLORS.textLight}
+                    />
                   </View>
                 </View>
               ))}
@@ -257,7 +295,9 @@ const RecipeDetailScreen = () => {
               </LinearGradient>
               <Text style={recipeDetailStyles.sectionTitle}>Instructions</Text>
               <View style={recipeDetailStyles.countBadge}>
-                <Text style={recipeDetailStyles.countText}>{recipe.instructions.length}</Text>
+                <Text style={recipeDetailStyles.countText}>
+                  {recipe.instructions.length}
+                </Text>
               </View>
             </View>
 
@@ -268,14 +308,26 @@ const RecipeDetailScreen = () => {
                     colors={[COLORS.primary, COLORS.primary + "CC"]}
                     style={recipeDetailStyles.stepIndicator}
                   >
-                    <Text style={recipeDetailStyles.stepNumber}>{index + 1}</Text>
+                    <Text style={recipeDetailStyles.stepNumber}>
+                      {index + 1}
+                    </Text>
                   </LinearGradient>
                   <View style={recipeDetailStyles.instructionContent}>
-                    <Text style={recipeDetailStyles.instructionText}>{instruction}</Text>
+                    <Text style={recipeDetailStyles.instructionText}>
+                      {instruction}
+                    </Text>
                     <View style={recipeDetailStyles.instructionFooter}>
-                      <Text style={recipeDetailStyles.stepLabel}>Step {index + 1}</Text>
-                      <TouchableOpacity style={recipeDetailStyles.completeButton}>
-                        <Ionicons name="checkmark" size={16} color={COLORS.primary} />
+                      <Text style={recipeDetailStyles.stepLabel}>
+                        Step {index + 1}
+                      </Text>
+                      <TouchableOpacity
+                        style={recipeDetailStyles.completeButton}
+                      >
+                        <Ionicons
+                          name="checkmark"
+                          size={16}
+                          color={COLORS.primary}
+                        />
                       </TouchableOpacity>
                     </View>
                   </View>
