@@ -16,9 +16,9 @@
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/images/recipe.png",
         "backgroundImage": "./assets/images/android-icon-background.png",
-        "monochromeImage": "./assets/images/android-icon-monochrome.png"
+        "monochromeImage": "./assets/images/recipe.png"
       },
-      "edgeToEdgeEnabled": true,
+      "edgeToEdgeEnabled": false,
       "predictiveBackGestureEnabled": false,
       "package": "com.vanshika_aggarwal.mobile"
     },
