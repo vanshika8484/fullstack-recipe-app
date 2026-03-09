@@ -26,7 +26,10 @@ export default function RootLayout() {
   }
 
   return (
-     <ClerkProvider tokenCache={tokenCache} publishableKey={publishableKey}>
+     <ClerkProvider tokenCache={tokenCache} publishableKey={publishableKey}  sessionMaintenance={{
+         interval: 1000 * 60, 
+         maxAge: 1000 * 60 * 60 * 24, 
+       }}>
      <SafeScreen>
         <Slot />
      </SafeScreen>
